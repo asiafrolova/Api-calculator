@@ -68,22 +68,24 @@ type Request struct {
 func CalcHandler(w http.ResponseWriter, r *http.Request) {
 	request := new(Request)
 	defer r.Body.Close()
+
 	err := json.NewDecoder(r.Body).Decode(&request)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		fmt.Println(r.Body)
 		return
 	}
 	result, err := calculation.Calc(request.Expression)
 
 	if err != nil {
 		if errors.Is(err, calculation.ErrInvalidExpression) || errors.Is(err, calculation.ErrDivisionByZero) || errors.Is(err, calculation.ErrEmptyExp) {
-			fmt.Fprintf(w, `{"error": %s}`, err.Error())
-
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			fmt.Fprintf(w, `{"error": %s}`, err.Error())
 
 		} else {
-			fmt.Fprintf(w, `{"error": %s}`, err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			fmt.Fprintf(w, `{"error": %s}`, err.Error())
+
 		}
 
 	} else {
@@ -117,7 +119,6 @@ func PanicMiddleware(next http.Handler) http.Handler {
 func (a *Application) RunServer() error {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", CalcHandler)
-	handler := PanicMiddleware(mux)
 
-	return http.ListenAndServe(":"+a.config.Addr, handler)
+	return http.ListenAndServe(":"+a.config.Addr, mux)
 }
