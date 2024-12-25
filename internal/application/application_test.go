@@ -1,4 +1,4 @@
-package application_test
+package application
 
 import (
 	"bytes"
@@ -9,7 +9,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/asiafrolova/Calculator/rpn/internal/application"
+	"github.com/asiafrolova/Api-calculator/internal/application"
 )
 
 type Response struct {

@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/asiafrolova/Calculator/rpn/pkg/calculation"
+	"github.com/asiafrolova/Api-calculator/pkg/calculation"
 )
 
 type Config struct {

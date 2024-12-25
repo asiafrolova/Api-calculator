@@ -1,4 +1,4 @@
-# Hi, this a calculator 
+# Hi, this is a calculator 
 That supports simple opearations such as multiplication, division, addition and substraction.
 ### Types of opearations:
 "/" - division
@@ -15,4 +15,17 @@ Other Errors - 500
 2+2*2 (result- 6,status - 200)
 1/0 (status - 400)
 ### Start
-go run rpn/cmd/main.go (in projects folder)
+To download the project, clone the repository with the command
+```
+git clone https://github.com/asiafrolova/Api-calculator
+```
+After that, you need to go to the project folder.
+```
+cd Api-calculator
+```
+
+The command to launch the project
+
+```
+go run ./cmd/main.go
+```

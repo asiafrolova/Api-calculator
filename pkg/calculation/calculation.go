@@ -166,6 +166,7 @@ func Calc(expression string) (float64, error) {
 	r, err := strconv.ParseFloat(res, 64)
 	return r, err
 }
+
 func Mult(exp []string) (string, error) {
 
 	tmp1, err1 := strconv.ParseFloat(exp[0], 64)

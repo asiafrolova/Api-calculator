@@ -1,9 +1,9 @@
-package calculation_test
+package calculation
 
 import (
 	"testing"
 
-	"github.com/asiafrolova/Calculator/rpn/pkg/calculation"
+	"github.com/asiafrolova/Api-calculator/pkg/calculation"
 )
 
 func TestCalc(t *testing.T) {
