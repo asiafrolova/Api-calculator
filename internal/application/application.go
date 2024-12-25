@@ -78,6 +78,7 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		if errors.Is(err, calculation.ErrInvalidExpression) || errors.Is(err, calculation.ErrDivisionByZero) || errors.Is(err, calculation.ErrEmptyExp) {
 			fmt.Fprintf(w, `{"error": %s}`, err.Error())
+
 			http.Error(w, err.Error(), http.StatusBadRequest)
 
 		} else {

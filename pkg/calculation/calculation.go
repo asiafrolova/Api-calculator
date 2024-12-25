@@ -166,28 +166,30 @@ func Calc(expression string) (float64, error) {
 	r, err := strconv.ParseFloat(res, 64)
 	return r, err
 }
-
-func Mult(exp []string) (string, error) {
-
+func ParseNums(exp []string) (float64, float64, error) {
 	tmp1, err1 := strconv.ParseFloat(exp[0], 64)
 	if err1 != nil {
-		return "", err1
+		return 0.0, 0.0, err1
 	}
 	tmp2, err2 := strconv.ParseFloat(exp[2], 64)
 	if err2 != nil {
-		return "", err2
+		return 0.0, 0.0, err2
+	}
+	return tmp1, tmp2, nil
+}
+func Mult(exp []string) (string, error) {
+
+	tmp1, tmp2, err := ParseNums(exp)
+	if err != nil {
+		return "", err
 	}
 	return (strconv.FormatFloat(tmp1*tmp2, 'f', -1, 64)), nil
 }
 func Div(exp []string) (string, error) {
 
-	tmp1, err1 := strconv.ParseFloat(exp[0], 64)
-	if err1 != nil {
-		return "", err1
-	}
-	tmp2, err2 := strconv.ParseFloat(exp[2], 64)
-	if err2 != nil {
-		return "", err2
+	tmp1, tmp2, err := ParseNums(exp)
+	if err != nil {
+		return "", err
 	}
 	if tmp2 == 0 {
 		return "", ErrDivisionByZero
@@ -196,25 +198,17 @@ func Div(exp []string) (string, error) {
 
 }
 func Sum(exp []string) (string, error) {
-	tmp1, err1 := strconv.ParseFloat(exp[0], 64)
-	if err1 != nil {
-		return "", err1
-	}
-	tmp2, err2 := strconv.ParseFloat(exp[2], 64)
-	if err2 != nil {
-		return "", err2
+	tmp1, tmp2, err := ParseNums(exp)
+	if err != nil {
+		return "", err
 	}
 
 	return (strconv.FormatFloat(tmp1+tmp2, 'f', -1, 64)), nil
 }
 func Diff(exp []string) (string, error) {
-	tmp1, err1 := strconv.ParseFloat(exp[0], 64)
-	if err1 != nil {
-		return "", err1
-	}
-	tmp2, err2 := strconv.ParseFloat(exp[2], 64)
-	if err2 != nil {
-		return "", err2
+	tmp1, tmp2, err := ParseNums(exp)
+	if err != nil {
+		return "", err
 	}
 	return (strconv.FormatFloat(tmp1-tmp2, 'f', -1, 64)), nil
 }

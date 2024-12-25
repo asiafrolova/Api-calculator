@@ -8,8 +8,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	"github.com/asiafrolova/Api-calculator/internal/application"
+	//"github.com/asiafrolova/Api-calculator/internal/application"
 )
 
 type Response struct {
@@ -22,7 +21,7 @@ type Answer struct {
 	Error  string  `json:"error"`
 }
 
-func TestRequestHandlerBadRequestCase(t *testing.T) {
+func TestRequestHandlerCase(t *testing.T) {
 	testCasesSuccess := []Response{
 		{Expression: "(2+2)*2",
 			Result: 8,
@@ -43,7 +42,7 @@ func TestRequestHandlerBadRequestCase(t *testing.T) {
 
 		w := httptest.NewRecorder()
 
-		application.CalcHandler(w, req)
+		CalcHandler(w, req)
 
 		res := w.Result()
 		defer res.Body.Close()
@@ -87,10 +86,11 @@ func TestRequestHandlerBadRequestCase(t *testing.T) {
 
 		w := httptest.NewRecorder()
 
-		application.CalcHandler(w, req)
+		CalcHandler(w, req)
 
 		res := w.Result()
 		defer res.Body.Close()
+
 		if res.StatusCode != r.Status {
 			t.Errorf("Bad status code, have: %d, want: %d", res.StatusCode, r.Status)
 		}

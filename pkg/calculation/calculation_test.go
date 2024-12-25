@@ -2,8 +2,6 @@ package calculation
 
 import (
 	"testing"
-
-	"github.com/asiafrolova/Api-calculator/pkg/calculation"
 )
 
 func TestCalc(t *testing.T) {
@@ -36,7 +34,7 @@ func TestCalc(t *testing.T) {
 
 	for _, testCase := range testCasesSuccess {
 		t.Run(testCase.name, func(t *testing.T) {
-			val, err := calculation.Calc(testCase.expression)
+			val, err := Calc(testCase.expression)
 			if err != nil {
 				t.Fatalf("successful case %s returns error", testCase.expression)
 			}
@@ -54,33 +52,33 @@ func TestCalc(t *testing.T) {
 		{
 			name:        "invalid operation *",
 			expression:  "1+1*",
-			expectedErr: calculation.ErrInvalidExpression,
+			expectedErr: ErrInvalidExpression,
 		},
 		{
 			name:        "invalid operation **",
 			expression:  "2+2**2",
-			expectedErr: calculation.ErrInvalidExpression,
+			expectedErr: ErrInvalidExpression,
 		},
 		{
 			name:        "invalid operation (",
 			expression:  "((2+2-*(2",
-			expectedErr: calculation.ErrInvalidExpression,
+			expectedErr: ErrInvalidExpression,
 		},
 		{
 			name:        "empty",
 			expression:  "",
-			expectedErr: calculation.ErrEmptyExp,
+			expectedErr: ErrEmptyExp,
 		},
 		{
 			name:        "division by zero",
 			expression:  "2/0",
-			expectedErr: calculation.ErrDivisionByZero,
+			expectedErr: ErrDivisionByZero,
 		},
 	}
 
 	for _, testCase := range testCasesFail {
 		t.Run(testCase.name, func(t *testing.T) {
-			val, err := calculation.Calc(testCase.expression)
+			val, err := Calc(testCase.expression)
 			if err != testCase.expectedErr {
 				t.Fatalf("expression %s is invalid but result  %f was obtained", testCase.expression, val)
 			}
