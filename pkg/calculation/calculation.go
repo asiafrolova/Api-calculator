@@ -23,7 +23,7 @@ func Split(expression string) ([]string, error) {
 		if unicode.IsDigit(elem) {
 			cur = append(cur, elem)
 		} else {
-			if len(cur) == 0 && elem != '(' && res[len(res)-1] != ")" {
+			if len(cur) == 0 && elem != '(' && (len(res) == 0 || res[len(res)-1] != ")") {
 				//err = errors.New("invalid operation")
 				err = ErrInvalidExpression
 			}
