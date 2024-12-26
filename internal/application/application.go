@@ -72,7 +72,6 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&request)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
-		fmt.Println(r.Body)
 		return
 	}
 	result, err := calculation.Calc(request.Expression)
@@ -94,31 +93,17 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
-func PanicMiddleware(next http.Handler) http.Handler {
+func LoggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		request := new(Request)
-		defer r.Body.Close()
-		err := json.NewDecoder(r.Body).Decode(&request)
-		if err != nil {
-			fmt.Fprintf(w, `{"error": %s}`, err.Error())
-			http.Error(w, err.Error(), http.StatusBadRequest)
-		}
-		tmp := []rune(request.Expression)
-		var successful bool = true
-		if len(tmp) == 0 {
-			http.Error(w, calculation.ErrEmptyExp.Error(), http.StatusBadRequest)
-			successful = false
-		}
-
-		if successful {
-			log.Println("good expression")
-			next.ServeHTTP(w, r)
-		}
+		log.Printf("%s %s", r.Method, r.URL.Path)
+		next.ServeHTTP(w, r)
 	})
 }
+
 func (a *Application) RunServer() error {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", CalcHandler)
+	handler := LoggingMiddleware(mux)
 
-	return http.ListenAndServe(":"+a.config.Addr, mux)
+	return http.ListenAndServe(":"+a.config.Addr, handler)
 }
